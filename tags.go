@@ -4,18 +4,19 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"slices"
 	"strconv"
 	"strings"
 )
 
 var (
-	errTagSyntax      = errors.New("bad syntax for struct tag pair")
-	errTagKeySyntax   = errors.New("bad syntax for struct tag key")
-	errTagValueSyntax = errors.New("bad syntax for struct tag value")
+	ErrTagSyntax      = errors.New("bad syntax for struct tag pair")
+	ErrTagKeySyntax   = errors.New("bad syntax for struct tag key")
+	ErrTagValueSyntax = errors.New("bad syntax for struct tag value")
 
-	errKeyNotSet      = errors.New("tag key does not exist")
-	errTagNotExist    = errors.New("tag does not exist")
-	errTagKeyMismatch = errors.New("mismatch between key and tag.key")
+	ErrKeyNotSet      = errors.New("tag key does not exist")
+	ErrTagNotExists   = errors.New("tag does not exist")
+	ErrTagKeyMismatch = errors.New("mismatch between key and tag.key")
 )
 
 // Tags represent a set of tags from a single struct field
@@ -69,13 +70,13 @@ func Parse(tag string) (*Tags, error) {
 		}
 
 		if i == 0 {
-			return nil, errTagKeySyntax
+			return nil, ErrTagKeySyntax
 		}
 		if i+1 >= len(tag) || tag[i] != ':' {
-			return nil, errTagSyntax
+			return nil, ErrTagSyntax
 		}
 		if tag[i+1] != '"' {
-			return nil, errTagValueSyntax
+			return nil, ErrTagValueSyntax
 		}
 
 		key := tag[:i]
@@ -90,7 +91,7 @@ func Parse(tag string) (*Tags, error) {
 			i++
 		}
 		if i >= len(tag) {
-			return nil, errTagValueSyntax
+			return nil, ErrTagValueSyntax
 		}
 
 		qvalue := tag[:i+1]
@@ -98,7 +99,7 @@ func Parse(tag string) (*Tags, error) {
 
 		value, err := strconv.Unquote(qvalue)
 		if err != nil {
-			return nil, errTagValueSyntax
+			return nil, ErrTagValueSyntax
 		}
 
 		res := strings.Split(value, ",")
@@ -135,13 +136,13 @@ func (t *Tags) Get(key string) (*Tag, error) {
 		}
 	}
 
-	return nil, errTagNotExist
+	return nil, ErrTagNotExists
 }
 
 // Set sets the given tag. If the tag key already exists it'll override it
 func (t *Tags) Set(tag *Tag) error {
 	if tag.Key == "" {
-		return errKeyNotSet
+		return ErrKeyNotSet
 	}
 
 	added := false
@@ -181,12 +182,7 @@ func (t *Tags) AddOptions(key string, options ...string) {
 // DeleteOptions deletes the given options for the given key
 func (t *Tags) DeleteOptions(key string, options ...string) {
 	hasOption := func(option string) bool {
-		for _, opt := range options {
-			if opt == option {
-				return true
-			}
-		}
-		return false
+		return slices.Contains(options, option)
 	}
 
 	for i, tag := range t.tags {
@@ -209,12 +205,7 @@ func (t *Tags) DeleteOptions(key string, options ...string) {
 // Delete deletes the tag for the given keys
 func (t *Tags) Delete(keys ...string) {
 	hasKey := func(key string) bool {
-		for _, k := range keys {
-			if k == key {
-				return true
-			}
-		}
-		return false
+		return slices.Contains(keys, key)
 	}
 
 	var updated []*Tag
@@ -261,13 +252,7 @@ func (t *Tags) String() string {
 
 // HasOption returns true if the given option is available in options
 func (t *Tag) HasOption(opt string) bool {
-	for _, tagOpt := range t.Options {
-		if tagOpt == opt {
-			return true
-		}
-	}
-
-	return false
+	return slices.Contains(t.Options, opt)
 }
 
 // Value returns the raw value of the tag, i.e. if the tag is
