@@ -1,6 +1,6 @@
 # structtag [![](https://github.com/ecatholic/structtag/workflows/build/badge.svg)](https://github.com/ecatholic/structtag/actions) [![PkgGoDev](https://pkg.go.dev/badge/github.com/ecatholic/structtag)](https://pkg.go.dev/github.com/ecatholic/structtag)
 
-structtag provides a way of parsing and manipulating struct tag Go fields. It's used by tools like [gomodifytags](https://github.com/ecatholic/gomodifytags). For more examples, checkout [the projects using structtag](https://pkg.go.dev/github.com/ecatholic/structtag?tab=importedby).
+structtag provides a way of parsing and manipulating struct tag Go fields.
 
 # Install
 
