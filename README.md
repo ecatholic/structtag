@@ -1,11 +1,11 @@
-# structtag [![](https://github.com/fatih/structtag/workflows/build/badge.svg)](https://github.com/fatih/structtag/actions) [![PkgGoDev](https://pkg.go.dev/badge/github.com/fatih/structtag)](https://pkg.go.dev/github.com/fatih/structtag)
+# structtag [![](https://github.com/ecatholic/structtag/workflows/build/badge.svg)](https://github.com/ecatholic/structtag/actions) [![PkgGoDev](https://pkg.go.dev/badge/github.com/ecatholic/structtag)](https://pkg.go.dev/github.com/ecatholic/structtag)
 
-structtag provides a way of parsing and manipulating struct tag Go fields. It's used by tools like [gomodifytags](https://github.com/fatih/gomodifytags). For more examples, checkout [the projects using structtag](https://pkg.go.dev/github.com/fatih/structtag?tab=importedby).
+structtag provides a way of parsing and manipulating struct tag Go fields.
 
 # Install
 
 ```bash
-go get github.com/fatih/structtag
+go get github.com/ecatholic/structtag
 ```
 
 # Example
@@ -18,7 +18,7 @@ import (
 	"reflect"
 	"sort"
 
-	"github.com/fatih/structtag"
+	"github.com/ecatholic/structtag"
 )
 
 func main() {

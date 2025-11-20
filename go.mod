@@ -1,3 +1,3 @@
-module github.com/fatih/structtag
+module github.com/ecatholic/structtag
 
-go 1.12
+go 1.24.2
